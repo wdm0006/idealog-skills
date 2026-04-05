@@ -1,0 +1,50 @@
+{
+  "name": "idealog-skills",
+  "owner": {
+    "name": "Will McGinnis",
+    "email": "will@mcginniscommawill.com"
+  },
+  "metadata": {
+    "description": "Claude Code skills for managing ideas with idea.log's MCP server. Groom your backlog, interview ideas into shape, decompose big ideas, and autonomously build projects from your idea list.",
+    "version": "1.0.0",
+    "homepage": "https://github.com/wdm0006/idealog-skills",
+    "keywords": ["idealog", "ideas", "mcp", "productivity", "project-management"]
+  },
+  "plugins": [
+    {
+      "name": "idealog-complete",
+      "description": "All 6 idea.log skills: backlog grooming, idea interview, autonomous builder, weekly review, idea decomposition, and stale ideas audit",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/backlog-grooming",
+        "./skills/idea-interview",
+        "./skills/autonomous-builder",
+        "./skills/weekly-review",
+        "./skills/idea-decomposition",
+        "./skills/stale-ideas-audit"
+      ]
+    },
+    {
+      "name": "idealog-essentials",
+      "description": "Core idea management: backlog grooming, idea interview, and weekly review",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/backlog-grooming",
+        "./skills/idea-interview",
+        "./skills/weekly-review"
+      ]
+    },
+    {
+      "name": "idealog-builder",
+      "description": "Turn ideas into projects: autonomous builder and idea decomposition",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/autonomous-builder",
+        "./skills/idea-decomposition"
+      ]
+    }
+  ]
+}
