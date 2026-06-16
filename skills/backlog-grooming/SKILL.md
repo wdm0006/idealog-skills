@@ -38,6 +38,8 @@ For each idea in the backlog, check for:
 | Already completed elsewhere | Mark as Did It with `update_idea` |
 | No longer relevant | Mark as Abandoned with `update_idea`, add comment with reason |
 
+Use idea.log's canonical status values (`Pending`, `Did First Step`, `Did It`, `Abandoned`) — see the [shared reference](../REFERENCE.md).
+
 ### Prioritization
 
 After cleanup, rank remaining pending ideas by:
@@ -58,7 +60,7 @@ Groom my idea backlog
 
 **Actions:**
 ```
-1. Fetched 23 ideas (14 pending, 3 in progress, 4 completed, 2 abandoned)
+1. Fetched 23 ideas (14 Pending, 3 Did First Step, 4 Did It, 2 Abandoned)
 2. Found 2 duplicates: "CLI for dotfiles" and "dotfile manager tool" — merged into one
 3. Clarified 3 vague ideas:
    - "that API thing" → "Build a REST API for the recipe collection app"

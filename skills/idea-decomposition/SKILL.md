@@ -11,7 +11,7 @@ description: Breaks a large or complex idea into smaller, actionable sub-ideas, 
 
 - An idea feels too big or vague to start working on
 - You want to turn a project-sized idea into a series of concrete tasks
-- An idea has been sitting in "Pending" because the scope is intimidating
+- An idea has been sitting in "Pending" (see the [shared status reference](../REFERENCE.md)) because the scope is intimidating
 - You want to make incremental progress on a large concept
 
 ## How It Works
