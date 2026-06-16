@@ -46,37 +46,49 @@ This repository contains Claude Code skills that work with idea.log's built-in M
 
 ## Installing the Skills
 
-### From the Claude Code Skill Marketplace (Recommended)
+These skills are distributed as Claude Code plugins through the marketplace
+defined in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+Install them using the `/plugin` slash commands inside Claude Code.
 
-```bash
-claude skills install idealog-skills
-```
-
-### Manual Installation
-
-Clone this repo and add it to your Claude Code skill search paths:
-
-```bash
-git clone https://github.com/wdm0006/idealog-skills.git
-```
-
-Then in Claude Code settings, add the path to the `skills/` directory.
-
-### Verify Installation
+### 1. Add this repo as a marketplace
 
 ```
-/backlog-grooming
+/plugin marketplace add wdm0006/idealog-skills
 ```
 
-If the skill loads, you're set.
+### 2. Install a plugin bundle
 
-## Plugin Bundles
+Pick the bundle that fits how you work, then install it with
+`/plugin install <bundle>@idealog-skills`:
+
+```
+/plugin install idealog-complete@idealog-skills
+```
+
+The available bundles are:
 
 | Bundle | Skills | Description |
 |--------|--------|-------------|
 | **idealog-complete** | All 6 | Every skill in this repo |
 | **idealog-essentials** | Backlog Grooming, Idea Interview, Weekly Review | Core idea management |
 | **idealog-builder** | Autonomous Builder, Idea Decomposition | Turn ideas into projects |
+
+For example, to install just the core idea-management skills:
+
+```
+/plugin install idealog-essentials@idealog-skills
+```
+
+### 3. Verify installation
+
+Run `/plugin` to see your installed plugins, or start one of the bundled
+skills directly:
+
+```
+/backlog-grooming
+```
+
+If the skill loads, you're set.
 
 ## Setting Up the MCP Server
 
