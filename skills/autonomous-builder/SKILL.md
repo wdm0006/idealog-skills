@@ -24,7 +24,7 @@ description: Picks an idea from your idea.log backlog and autonomously starts bu
 3. Determine the project type from the idea's tags and description (CLI tool, web app, library, etc.)
 4. Create the project scaffold appropriate to the type
 5. Implement the core functionality described in the idea
-6. Update the idea status to "Did First Step" with `update_idea` and mark `first_step_completed: true`
+6. Update the idea status to "Did First Step" with `update_idea` and mark `first_step_completed: true` (see the [shared reference](../REFERENCE.md) for canonical status values and how `status` and `first_step_completed` relate)
 7. Add a comment with `add_comment` documenting what was built and where
 
 ## Project Scaffolding by Type

@@ -24,14 +24,16 @@ description: Generates a weekly summary of your idea.log activity — new ideas 
 
 ## Report Format
 
+Status counts use idea.log's canonical values (`Pending`, `Did First Step`, `Did It`, `Abandoned`) — see the [shared reference](../REFERENCE.md).
+
 ```markdown
 ## Weekly Idea Review — [Date Range]
 
 ### Summary
 - **Total ideas:** [count]
-- **Pending:** [count] | **In Progress:** [count] | **Completed:** [count] | **Abandoned:** [count]
+- **Pending:** [count] | **Did First Step:** [count] | **Did It:** [count] | **Abandoned:** [count]
 - **New this week:** [count]
-- **Completed this week:** [count]
+- **Did It this week:** [count]
 
 ### Highlights
 - [Notable completions or progress]
@@ -64,12 +66,12 @@ Give me a weekly review of my ideas
 
 ### Summary
 - **Total ideas:** 31
-- **Pending:** 18 | **In Progress:** 5 | **Completed:** 6 | **Abandoned:** 2
+- **Pending:** 18 | **Did First Step:** 5 | **Did It:** 6 | **Abandoned:** 2
 - **New this week:** 4
-- **Completed this week:** 1 ("Add dark mode to recipe app")
+- **Did It this week:** 1 ("Add dark mode to recipe app")
 
 ### Highlights
-- Completed "Add dark mode to recipe app" — nice quick win
+- Marked "Add dark mode to recipe app" as Did It — nice quick win
 - "Dotfile manager CLI" got two comments and a first step this week, building momentum
 - New idea "MCP server for Homebrew" looks promising
 

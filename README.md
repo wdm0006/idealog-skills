@@ -106,6 +106,8 @@ idea.log's MCP server is bundled inside the macOS app. Add this to your Claude C
 
 The server exposes six tools: `search_ideas`, `get_idea`, `create_idea`, `update_idea`, `add_comment`, and `get_stats`.
 
+For the canonical idea status values (`Pending`, `Did First Step`, `Did It`, `Abandoned`) and how the `update_idea` fields relate, see the [shared skills reference](skills/REFERENCE.md).
+
 ## Example Prompts
 
 ```

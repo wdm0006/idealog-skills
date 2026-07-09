@@ -22,8 +22,8 @@ description: Finds ideas that have been sitting untouched in your backlog and he
 4. For each stale idea, present it to the user with a recommendation:
    - **Revive** — The idea still has value. Add a first step and keep it.
    - **Refine** — The idea is too vague. Rewrite the description to make it actionable.
-   - **Abandon** — The idea is no longer relevant. Mark it abandoned with a reason.
-5. Apply the user's decision with `update_idea` and `add_comment`
+   - **Abandon** — The idea is no longer relevant. Mark it `Abandoned` with a reason.
+5. Apply the user's decision with `update_idea` and `add_comment` (use idea.log's canonical status values — see the [shared reference](../REFERENCE.md))
 6. Present a summary of actions taken
 
 ## Staleness Criteria
