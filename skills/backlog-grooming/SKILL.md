@@ -20,8 +20,9 @@ description: Reviews all pending ideas in idea.log, cleans up stale or duplicate
 2. Pull stats with `get_stats` to understand the overall state
 3. For each idea, fetch full details with `get_idea` to see comments and tags
 4. Group ideas by theme, identify duplicates, and flag stale entries
-5. For each issue found, suggest a fix and apply it with `update_idea` or `add_comment`
-6. Present a prioritized summary of what remains
+5. Present the full set of proposed changes and wait for the user to approve them — make no writes before this
+6. Apply only the approved changes with `update_idea` or `add_comment`
+7. Present a prioritized summary of what remains
 
 ## Grooming Actions
 
@@ -40,9 +41,39 @@ For each idea in the backlog, check for:
 
 Use idea.log's canonical status values (`Pending`, `Did First Step`, `Did It`, `Abandoned`) — see the [shared reference](../REFERENCE.md).
 
+### Confirmation
+
+Grooming can touch many ideas at once, and a mistaken duplicate or relevance call is expensive to undo. So collect the proposed changes during analysis and present them all at once before calling `update_idea` or `add_comment`. Group them by action so the user can scan the high-impact ones first:
+
+```
+Proposed changes (12 across 9 ideas):
+
+Abandon (2)
+  1. "dotfile manager tool" — duplicate of "CLI for dotfiles"
+  2. "port app to Electron" — no longer relevant, you went native
+
+Mark Did It (1)
+  3. "add CI to the recipe app" — already completed
+
+Rewrite content (3)
+  4. "that API thing" → "Build a REST API for the recipe collection app"
+  ...
+
+Add first step (4)
+Add tags (2)
+
+Apply all, or pick the ones you want? [all / numbers / none]
+```
+
+Then:
+
+- Apply only what the user approves. If they select individual changes, leave the rest exactly as they are — don't re-propose them in this run.
+- Status changes to `Did It` or `Abandoned` and content rewrites always need approval, since they discard or overwrite what the user captured.
+- If the user declines everything, skip the writes entirely and continue to prioritization — it's read-only and useful on the ungroomed backlog.
+
 ### Prioritization
 
-After cleanup, rank remaining pending ideas by:
+Prioritization reads the backlog and never writes, so run it whether or not any cleanup was approved. Rank remaining pending ideas by:
 
 1. **Actionability** — Does it have a clear first step?
 2. **Momentum** — Has it been commented on or updated recently?
@@ -61,14 +92,26 @@ Groom my idea backlog
 **Actions:**
 ```
 1. Fetched 23 ideas (14 Pending, 3 Did First Step, 4 Did It, 2 Abandoned)
-2. Found 2 duplicates: "CLI for dotfiles" and "dotfile manager tool" — merged into one
-3. Clarified 3 vague ideas:
-   - "that API thing" → "Build a REST API for the recipe collection app"
-   - "refactor" → "Refactor auth middleware into shared package"
-   - "blog" → "Write a post about MCP server development workflow"
-4. Added first steps to 5 ideas that were missing them
-5. Abandoned 1 idea that's no longer relevant ("port app to Electron" — already went native)
-6. Top 3 recommendations:
+2. Analyzed the backlog and proposed 10 changes across 8 ideas:
+
+   Abandon (2)
+     1. "dotfile manager tool" — duplicate of "CLI for dotfiles"
+     2. "port app to Electron" — no longer relevant, you went native
+
+   Rewrite content (3)
+     3. "that API thing" → "Build a REST API for the recipe collection app"
+     4. "refactor" → "Refactor auth middleware into shared package"
+     5. "blog" → "Write a post about MCP server development workflow"
+
+   Add first step (5)
+     6-10. Five pending ideas with no concrete next action
+
+   Apply all, or pick the ones you want? [all / numbers / none]
+
+3. User approved all except #2 ("port app to Electron" — still wants to revisit it)
+4. Applied 9 changes: 1 abandoned duplicate with an explanatory comment,
+   3 descriptions rewritten, 5 first steps added
+5. Top 3 recommendations:
    - "Refactor auth middleware" — clear first step, high impact, low effort
    - "Build recipe API" — well-defined, you've been commenting on it
    - "Write MCP blog post" — quick win, could publish this week
@@ -79,10 +122,12 @@ Groom my idea backlog
 ```
 Backlog Grooming:
 - [ ] Reviewed all pending ideas
-- [ ] Removed or merged duplicates
-- [ ] Clarified vague descriptions
+- [ ] Presented all proposed changes grouped by action, before any writes
+- [ ] Got user approval and applied only the approved changes
+- [ ] Removed or merged approved duplicates
+- [ ] Clarified approved vague descriptions
 - [ ] Added missing first steps and tags
-- [ ] Presented prioritized recommendations
+- [ ] Presented prioritized recommendations (even if no changes were approved)
 ```
 
 ## Learn More
