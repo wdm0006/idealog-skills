@@ -135,6 +135,13 @@ For the canonical idea status values (`Pending`, `Did First Step`, `Did It`, `Ab
 
 Issues and pull requests are welcome. If you build a skill that works well with idea.log's MCP server, open a PR.
 
+A new skill must be listed in the `idealog-complete` bundle in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json), so everyone who installs the full bundle receives it; the curated bundles stay opt-in subsets. Check your change with:
+
+```bash
+python3 scripts/validate_skills.py
+python3 -m unittest discover -s tests
+```
+
 ## License
 
 MIT
