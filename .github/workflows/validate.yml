@@ -17,5 +17,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Validate marketplace paths and SKILL.md frontmatter
+      - name: Validate marketplace paths, bundle coverage, and SKILL.md frontmatter
         run: python3 scripts/validate_skills.py
+      - name: Run validator tests
+        run: python3 -m unittest discover -s tests -v
