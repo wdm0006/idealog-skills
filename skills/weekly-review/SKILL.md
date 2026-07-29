@@ -20,7 +20,9 @@ description: Generates a weekly summary of your idea.log activity — new ideas 
 2. Pull all ideas with `search_ideas` to assess the full backlog
 3. For ideas with recent activity, fetch details with `get_idea` to check comments and updates
 4. Generate a structured weekly report
-5. Add the report as a comment to the most relevant active idea with `add_comment`, or present it directly
+5. Present the complete report directly to the user
+6. Optionally identify the most relevant active idea, preview its exact title and ID, and ask whether to save the report there
+7. Only after explicit user approval, call `add_comment` for that idea. If the user declines, finish with the report already presented and make no writes
 
 ## Report Format
 
@@ -52,6 +54,21 @@ Status counts use idea.log's canonical values (`Pending`, `Did First Step`, `Did
 - [Common tags or themes across recent ideas]
 - [Areas where ideas are piling up without action]
 ```
+
+## Optional Save Confirmation
+
+Presenting the report does not require a write. Do not call `add_comment` unless the user explicitly approves the exact target idea in a prompt shaped like:
+
+```text
+Save this weekly review as a comment?
+
+Target idea: "[Exact idea title]" (ID: [exact idea ID])
+Comment: the complete weekly review shown above
+
+Reply "yes" to save it to this idea, or "no" to finish without saving.
+```
+
+Treat anything other than explicit approval as a decline. If the user wants a different target, preview that idea's exact title and ID and ask again before calling `add_comment`.
 
 ## Example
 
@@ -89,6 +106,23 @@ Give me a weekly review of my ideas
 - 4 ideas have no tags at all — consider a quick grooming pass
 ```
 
+**Optional save confirmation:**
+```text
+Save this weekly review as a comment?
+
+Target idea: "Dotfile manager CLI" (ID: 42)
+Comment: the complete weekly review shown above
+
+Reply "yes" to save it to this idea, or "no" to finish without saving.
+```
+
+**User:**
+```text
+No, don't save it.
+```
+
+**Result:** The complete report remains available in the conversation. No `add_comment` call or other mutation is made.
+
 ## Checklist
 
 ```
@@ -98,6 +132,9 @@ Weekly Review:
 - [ ] Generated structured report
 - [ ] Provided actionable recommendations
 - [ ] Noted patterns in the backlog
+- [ ] Presented the complete report directly
+- [ ] Previewed the exact target idea title and ID before offering to save
+- [ ] Called add_comment only after explicit approval; otherwise made no writes
 ```
 
 ## Learn More
