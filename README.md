@@ -70,10 +70,11 @@ The macOS app runs the MCP server; these six tools are the whole surface.
 
 Two things worth knowing before you write your own skill against these:
 
-- `search_ideas` matches idea content and first step. It does not match tags or
-  comments, so its recall is narrower than the search inside the app — filter by
-  status and read candidates with `get_idea` rather than assuming a tag search
-  works.
+- `search_ideas` matches an idea's content, first step, tag names, and comment
+  text — the same fields the in-app search ranks. It returns up to `limit`
+  results (default 20), newest first, not ranked by relevance; a truncated
+  response reports how many ideas matched in total, so raise `limit` or narrow
+  with `status` rather than assume you got everything back.
 - Status values are exactly `Pending`, `Did First Step`, `Did It`, and
   `Abandoned`. The skills in this repository share those spellings through
   [`skills/REFERENCE.md`](skills/REFERENCE.md); anything else is rejected.
