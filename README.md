@@ -3,15 +3,29 @@
 </p>
 
 <p align="center">
+  An idea backlog your agent can read and write
+</p>
+
+<p align="center">
   <a href="https://apps.apple.com/us/app/idea-log/id6755640991">Download idea.log</a> &nbsp;|&nbsp;
   <a href="https://heltonlabs.com/idealog">Learn More</a>
 </p>
 
 ---
 
-**[idea.log](https://apps.apple.com/us/app/idea-log/id6755640991)** is a minimalist, terminal-inspired idea tracker for developers. Capture ideas in seconds, tag them, track progress, and let AI help you act on them. Available on iOS and macOS with CloudKit sync.
+idea.log is a terminal-styled idea tracker for Mac, iPhone, and iPad. The Mac app
+ships a Model Context Protocol server that reads and writes the same on-device
+store the app shows you, so an assistant works your real backlog instead of a
+pasted export.
 
-This repository contains Claude Code skills that work with idea.log's built-in MCP server to help you manage, develop, and act on your ideas.
+This repository is the other half: six Claude Code skills that use that server to
+groom the backlog, turn a vague idea into an actionable one, run a weekly review,
+break a large idea into smaller ones, audit ideas that have gone stale, and pick
+one and build it.
+
+Requires idea.log for macOS — $4.99 once on the App Store, and where the MCP
+server comes from. These skills are MIT licensed and free. The iPhone and iPad
+app ships no MCP server.
 
 <p align="center">
   <img src="images/idealog-list.png" alt="idea.log list view" width="700" />
@@ -19,15 +33,80 @@ This repository contains Claude Code skills that work with idea.log's built-in M
 
 ## Why idea.log?
 
-- **Instant capture** — Text, voice, or Siri shortcuts. Get the idea out of your head in under ten seconds.
-- **Developer-native UI** — Terminal-inspired dark theme, monospace everything, zero fluff.
-- **Built-in MCP server** — Your AI agent can read, create, and manage ideas without you opening the app.
-- **CloudKit sync** — Ideas sync across iPhone and Mac through your private iCloud account. No server, no account to create.
-- **AI-powered skills** — These Claude Code skills turn your idea backlog into an actionable pipeline.
+- **Your agent works the real backlog** — Six tools over the same store the app
+  reads, on macOS. Not an export and not a copy: an idea your assistant files is
+  in the app before you switch windows.
+
+- **Capture without opening anything** — Typed text, dictation, Siri, Shortcuts,
+  and the Action Button. On iPhone and iPad, Spotlight finds ideas afterwards.
+
+- **A first step, not just a list** — Every idea carries an optional first step
+  and moves through four states: Pending, Did First Step, Did It, Abandoned. The
+  backlog records whether you started, not just whether you wrote it down.
+
+- **Developer-native UI** — Terminal-inspired dark theme, monospace everything,
+  zero fluff.
+
+- **Sync with no account** — Ideas move between your Mac, iPhone, and iPad
+  through your own private iCloud. No sign-in, no subscription, and no server of
+  ours in the path.
 
 <p align="center">
   <img src="images/idealog-capture.png" alt="idea.log quick capture" width="700" />
 </p>
+
+## What Your Agent Can Actually Do
+
+The macOS app runs the MCP server; these six tools are the whole surface.
+
+| Tool | What it does |
+|------|--------------|
+| `search_ideas` | Search and list ideas, optionally filtered by status and capped by count. |
+| `get_idea` | Full detail for one idea, including its comments and tags. |
+| `create_idea` | File a new idea, with an optional first step and tags. |
+| `update_idea` | Change an idea's content, status, or first step, or mark the first step done. |
+| `add_comment` | Add a comment to an idea. |
+| `get_stats` | Summary statistics across the whole backlog. |
+
+Two things worth knowing before you write your own skill against these:
+
+- `search_ideas` matches idea content and first step. It does not match tags or
+  comments, so its recall is narrower than the search inside the app — filter by
+  status and read candidates with `get_idea` rather than assuming a tag search
+  works.
+- Status values are exactly `Pending`, `Did First Step`, `Did It`, and
+  `Abandoned`. The skills in this repository share those spellings through
+  [`skills/REFERENCE.md`](skills/REFERENCE.md); anything else is rejected.
+
+## One Session, End to End
+
+What backlog grooming actually looks like, in Claude Code on a Mac with the
+`idealog` MCP server configured:
+
+> Groom my idea backlog. Anything sitting in Pending with no first step —
+> either give it one or tell me to kill it.
+
+1. **`search_ideas`** with `status: "Pending"` returns the pending ideas with
+   their content, tags, and whether a first step exists.
+2. For each idea with no first step, **`get_idea`** pulls the full record,
+   including comments you left months ago and forgot.
+3. Claude proposes a concrete first step for the ones worth keeping and calls
+   **`update_idea`** to save it — after showing you what it is about to write.
+   Grooming asks before it changes anything.
+4. For the one that has not moved since April, it drafts the case for dropping
+   it, saves that reasoning with **`add_comment`**, and sets
+   `status: "Abandoned"` with **`update_idea`** once you agree.
+5. **`get_stats`** closes the session with what changed: how many are pending,
+   how many now have a first step, what you finished.
+
+Switch to idea.log on the Mac and the changes are already there. Same store, no
+import step, nothing to sync by hand.
+
+The other five skills follow the same shape. `idea-interview` asks you questions
+until a one-line idea has a first step and tags. `idea-decomposition` turns one
+large idea into several smaller ones that stand on their own.
+`autonomous-builder` picks a pending idea and scaffolds it, confirming the
+destination before it writes any files.
 
 ## Available Skills
 
@@ -92,31 +171,35 @@ If the skill loads, you're set.
 
 ## Setting Up the MCP Server
 
-idea.log's MCP server is bundled inside the macOS app. Add this to your Claude Code MCP configuration:
+idea.log's MCP server is bundled inside the macOS app — there is no package to
+install and nothing to build. Buy the app, then point your MCP client at the
+executable inside it:
 
 ```json
 {
   "mcpServers": {
     "idealog": {
-      "command": "/Applications/IdeaLog.app/Contents/MacOS/idealog-mcp.app/Contents/MacOS/idealog-mcp"
+      "command": "/Applications/idea.log.app/Contents/MacOS/idealog-mcp.app/Contents/MacOS/idealog-mcp"
     }
   }
 }
 ```
 
-The server exposes six tools: `search_ideas`, `get_idea`, `create_idea`, `update_idea`, `add_comment`, and `get_stats`.
+The server reports itself as `idealog` and exposes the six tools above over
+stdio. It is macOS only: there is no server in the iPhone or iPad app, and no
+remote endpoint.
 
 For the canonical idea status values (`Pending`, `Did First Step`, `Did It`, `Abandoned`) and how the `update_idea` fields relate, see the [shared skills reference](skills/REFERENCE.md).
 
 ## Example Prompts
 
 ```
-"Groom my idea backlog — clean up anything stale and prioritize the rest"
+"Groom my idea backlog — anything pending with no first step, give it one or tell me to kill it"
 "I have a vague idea about a CLI tool for managing dotfiles, help me flesh it out"
-"Pick my best pending idea and start building it"
+"Pick my best pending idea and scaffold it"
 "Give me a weekly review of my ideas"
 "Break down my 'build a personal API' idea into smaller pieces"
-"Audit my ideas and find anything I should just abandon"
+"Find ideas I have not touched since April and tell me which ones to abandon"
 ```
 
 <p align="center">
