@@ -1,6 +1,6 @@
 ---
 name: weekly-review
-description: Generates a weekly summary of your idea.log activity — new ideas captured, progress made, ideas completed or abandoned — with suggestions for what to focus on next. Use at the start or end of each week.
+description: Generates a weekly summary of your idea.log activity — new ideas captured, recent comment activity, and a status breakdown of your backlog — with suggestions for what to focus on next. Use at the start or end of each week.
 ---
 
 # Weekly Idea Review
@@ -18,7 +18,7 @@ description: Generates a weekly summary of your idea.log activity — new ideas 
 
 1. Pull overall stats with `get_stats` for the big picture
 2. Pull all ideas with `search_ideas` to assess the full backlog
-3. For ideas with recent activity, fetch details with `get_idea` to check comments and updates
+3. For recently created ideas and ideas you suspect have comment activity, fetch details with `get_idea` — comment timestamps are the only per-idea activity dates the server returns (alongside `Created`)
 4. Generate a structured weekly report
 5. Present the complete report directly to the user
 6. Optionally identify the most relevant active idea, preview its exact title and ID, and ask whether to save the report there
@@ -28,6 +28,8 @@ description: Generates a weekly summary of your idea.log activity — new ideas 
 
 Status counts use idea.log's canonical values (`Pending`, `Did First Step`, `Did It`, `Abandoned`) — see the [shared reference](../REFERENCE.md).
 
+The server returns only a `Created` date and per-comment timestamps — no status-change or last-modified date — so it cannot say when an idea was completed or abandoned. `New this week` comes from `get_stats` (`Ideas created in last 7 days`). Report `Did It` as an all-time total, and count a completion "this week" only when a comment dated in the period evidences it; never estimate a period count for completed or abandoned ideas.
+
 ```markdown
 ## Weekly Idea Review — [Date Range]
 
@@ -35,15 +37,16 @@ Status counts use idea.log's canonical values (`Pending`, `Did First Step`, `Did
 - **Total ideas:** [count]
 - **Pending:** [count] | **Did First Step:** [count] | **Did It:** [count] | **Abandoned:** [count]
 - **New this week:** [count]
-- **Did It this week:** [count]
+- **Did It (all time):** [count, from `get_stats`]
+- **Completed this week:** [only ideas with a comment dated this week that evidences completion, with the comment date — or "not available"]
 
 ### Highlights
-- [Notable completions or progress]
-- [Ideas that gained momentum (new comments, status changes)]
+- [Notable progress, only where a comment dated this week shows it]
+- [Ideas that gained momentum (new comments dated this week)]
 
 ### Stale Watch
-- [Ideas pending for 30+ days with no activity]
-- [Ideas with first steps that haven't been started]
+- [Ideas created 30+ days ago, still Pending, with no comments]
+- [Ideas with a first step but no comment activity since capture]
 
 ### Recommendations
 1. **Quick win:** [Idea with clear first step and low effort]
@@ -85,16 +88,17 @@ Give me a weekly review of my ideas
 - **Total ideas:** 31
 - **Pending:** 18 | **Did First Step:** 5 | **Did It:** 6 | **Abandoned:** 2
 - **New this week:** 4
-- **Did It this week:** 1 ("Add dark mode to recipe app")
+- **Did It (all time):** 6
+- **Completed this week:** 1 ("Add dark mode to recipe app" — comment on Apr 2 says it shipped)
 
 ### Highlights
-- Marked "Add dark mode to recipe app" as Did It — nice quick win
-- "Dotfile manager CLI" got two comments and a first step this week, building momentum
+- "Add dark mode to recipe app" is Did It, with a comment on Apr 2 saying it shipped — nice quick win
+- "Dotfile manager CLI" got two comments this week (Apr 1, Apr 3), building momentum
 - New idea "MCP server for Homebrew" looks promising
 
 ### Stale Watch
-- "Personal API gateway" — pending 47 days, no comments, no first step
-- "Redesign portfolio site" — pending 33 days, has first step but hasn't started
+- "Personal API gateway" — created 47 days ago, still Pending, no comments, no first step
+- "Redesign portfolio site" — created 33 days ago, has a first step but no comments since capture
 
 ### Recommendations
 1. **Quick win:** "Write blog post about MCP patterns" — first step is just an outline, could finish in one session
@@ -128,7 +132,9 @@ No, don't save it.
 ```
 Weekly Review:
 - [ ] Pulled current stats and full idea list
-- [ ] Identified new, completed, and stale ideas
+- [ ] Took new-this-week from `get_stats`; reported Did It as an all-time total
+- [ ] Counted a completion this week only when a dated comment evidenced it
+- [ ] Identified stale ideas from created date and comment activity
 - [ ] Generated structured report
 - [ ] Provided actionable recommendations
 - [ ] Noted patterns in the backlog

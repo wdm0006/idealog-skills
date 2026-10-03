@@ -17,7 +17,7 @@ description: Finds ideas that have been sitting untouched in your backlog and he
 ## How It Works
 
 1. Pull all ideas with `search_ideas` to get the full list
-2. Fetch details with `get_idea` for each pending idea to check creation dates and comments
+2. Fetch details with `get_idea` for each pending idea to check creation dates and comments (the server exposes no last-modified date, so staleness is judged from `Created` and comment timestamps)
 3. Identify stale ideas — pending ideas with no comments, no first step, or created more than 30 days ago
 4. For each stale idea, present it to the user with a recommendation:
    - **Revive** — The idea still has value. Add a first step and keep it.
@@ -31,7 +31,7 @@ description: Finds ideas that have been sitting untouched in your backlog and he
 | Signal | Staleness Level |
 |--------|----------------|
 | No first step, no comments, no tags | High — likely a drive-by capture that was never developed |
-| Has first step but untouched for 30+ days | Medium — was once prioritized but lost momentum |
+| Has first step, created 30+ days ago, no comments since capture | Medium — was once prioritized but shows no recorded activity |
 | Has comments but status is still Pending | Low — actively being thought about, just not started |
 | Tagged "someday" or "low" priority | Expected — not stale, just deferred |
 
@@ -66,7 +66,7 @@ Found 7 stale ideas out of 18 pending.
 Batch 1:
 
 1. "that API thing" — created 52 days ago, no tags, no first step, no comments
-   Recommendation: Abandon — too vague, hasn't been touched in nearly 2 months
+   Recommendation: Abandon — too vague, no comments in the nearly 2 months since capture
    → User chose: Abandon ✓
 
 2. "Learn Rust" — created 41 days ago, tagged "learning", no first step
