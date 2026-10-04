@@ -23,9 +23,11 @@ is **not** called "completed" or "done".
 
 ## `update_idea` fields
 
-`update_idea` is the tool used to modify an existing idea. The status-related
+`update_idea` requires `id` to identify the existing idea. Its supported mutable
 fields are:
 
+- `content` — the idea description.
+- `first_step` — the concrete next action.
 - `status` — one of the four values above.
 - `first_step_completed` — a boolean. Setting it `true` corresponds to the
   `Did First Step` status: when a skill marks an idea's first step as done it
@@ -33,5 +35,8 @@ fields are:
   so the two stay in agreement. An idea at `Pending` has
   `first_step_completed: false`.
 
-`update_idea` can also change an idea's content, tags, and first step; see the
-tool's own schema for the full parameter list.
+`update_idea` does not accept `tags`, so tags on existing ideas cannot currently
+be persisted through this tool. Keep tag suggestions in the conversation; do not
+write them into content or comments as a substitute, or recreate an idea to set
+them. `create_idea` does accept `tags` for new ideas, including decomposition
+children. See the tool's own schema for the authoritative parameter list.

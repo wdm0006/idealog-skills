@@ -104,8 +104,8 @@ Switch to idea.log on the Mac and the changes are already there. Same store, no
 import step, nothing to sync by hand.
 
 The other five skills follow the same shape. `idea-interview` asks you questions
-until a one-line idea has a first step and tags. `idea-decomposition` turns one
-large idea into several smaller ones that stand on their own.
+until a one-line idea has a first step and suggested tags. `idea-decomposition`
+turns one large idea into several smaller ones that stand on their own.
 `autonomous-builder` picks a pending idea and scaffolds it, confirming the
 destination before it writes any files.
 
@@ -114,7 +114,7 @@ destination before it writes any files.
 | Skill | Description |
 |-------|-------------|
 | [Backlog Grooming](skills/backlog-grooming/) | Review all pending ideas, clean up stale ones, improve descriptions, and prioritize what matters |
-| [Idea Interview](skills/idea-interview/) | Interactive conversation to flesh out a vague idea into something actionable with tags and first steps |
+| [Idea Interview](skills/idea-interview/) | Interactive conversation to flesh out a vague idea into something actionable with tag suggestions and first steps |
 | [Autonomous Builder](skills/autonomous-builder/) | Pick an idea and autonomously scaffold or implement it as a real project |
 | [Weekly Review](skills/weekly-review/) | Generate a weekly summary of idea activity with suggestions for what to work on next |
 | [Idea Decomposition](skills/idea-decomposition/) | Break a large idea into smaller, actionable sub-ideas with their own first steps |
