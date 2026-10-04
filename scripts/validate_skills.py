@@ -8,7 +8,8 @@ Checks, with no third-party dependencies (stdlib only):
 2. Every ``skills/*/SKILL.md`` has YAML frontmatter with non-empty ``name``
    and ``description`` fields, and its ``name`` matches its directory name.
 3. The ``idealog-complete`` plugin lists every ``skills/*/SKILL.md`` directory
-   exactly once. Curated bundles are free to ship a subset.
+   (duplicates are rejected in every plugin). Curated bundles are free to ship
+   a subset.
 
 Exits non-zero with a clear message if any check fails.
 """
@@ -67,14 +68,24 @@ def discover_skill_dirs(repo_root):
 def check_marketplace(repo_root, manifest, errors):
     for plugin in manifest.get("plugins", []):
         name = plugin.get("name", "<unnamed>")
+        declared = {}
         for rel in plugin.get("skills", []):
             skill_dir = (repo_root / rel).resolve()
+            declared.setdefault(skill_dir, []).append(rel)
             label = f"plugin '{name}' -> {rel}"
             if not skill_dir.is_dir():
                 errors.append(f"{label}: directory does not exist")
                 continue
             if not (skill_dir / "SKILL.md").is_file():
                 errors.append(f"{label}: missing SKILL.md")
+
+        for paths in declared.values():
+            if len(paths) > 1:
+                listed = ", ".join(paths)
+                errors.append(
+                    f"plugin '{name}': skill listed {len(paths)} times ({listed}); "
+                    "each skill must appear at most once per plugin"
+                )
 
 
 def check_complete_coverage(repo_root, manifest, errors):
@@ -88,17 +99,7 @@ def check_complete_coverage(repo_root, manifest, errors):
         return
 
     for plugin in complete:
-        declared = {}
-        for rel in plugin.get("skills", []):
-            declared.setdefault((repo_root / rel).resolve(), []).append(rel)
-
-        for paths in declared.values():
-            if len(paths) > 1:
-                listed = ", ".join(paths)
-                errors.append(
-                    f"plugin '{COMPLETE_PLUGIN}': skill listed {len(paths)} times ({listed}); "
-                    "each skill must appear exactly once"
-                )
+        declared = {(repo_root / rel).resolve() for rel in plugin.get("skills", [])}
 
         for skill_dir in discover_skill_dirs(repo_root):
             if skill_dir.resolve() not in declared:
