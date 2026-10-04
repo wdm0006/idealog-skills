@@ -115,6 +115,45 @@ class CompleteBundleCoverageTest(unittest.TestCase):
         self.assertEqual(validate_skills.collect_errors(self.root), [])
 
 
+class CuratedBundleDuplicateTest(unittest.TestCase):
+    """Every plugin, not just ``idealog-complete``, must list a skill once."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+        self.addCleanup(self._tmp.cleanup)
+        for name in ("alpha-skill", "beta-skill"):
+            write_skill(self.root, name)
+
+    def _manifest_with_curated(self, skills):
+        write_manifest(
+            self.root,
+            [
+                complete(["./skills/alpha-skill", "./skills/beta-skill"]),
+                {"name": "idealog-essentials", "source": "./", "strict": False, "skills": skills},
+            ],
+        )
+
+    def test_curated_bundle_duplicate_fails(self):
+        self._manifest_with_curated(["./skills/alpha-skill", "./skills/alpha-skill"])
+        errors = validate_skills.collect_errors(self.root)
+        self.assertEqual(len(errors), 1, errors)
+        self.assertIn("plugin 'idealog-essentials'", errors[0])
+        self.assertIn("listed 2 times", errors[0])
+
+    def test_curated_bundle_equivalent_spellings_fail(self):
+        self._manifest_with_curated(
+            ["./skills/alpha-skill", "skills/alpha-skill", "skills/alpha-skill/"]
+        )
+        errors = validate_skills.collect_errors(self.root)
+        self.assertEqual(len(errors), 1, errors)
+        self.assertIn("listed 3 times", errors[0])
+
+    def test_curated_bundle_subset_still_passes(self):
+        self._manifest_with_curated(["./skills/beta-skill"])
+        self.assertEqual(validate_skills.collect_errors(self.root), [])
+
+
 class ExistingChecksTest(unittest.TestCase):
     """The pre-existing manifest-path and frontmatter checks still fire."""
 
