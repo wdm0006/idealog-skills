@@ -16,15 +16,16 @@ description: Finds ideas that have been sitting untouched in your backlog and he
 
 ## How It Works
 
-1. Pull all ideas with `search_ideas` to get the full list
-2. Fetch details with `get_idea` for each pending idea to check creation dates and comments (the server exposes no last-modified date, so staleness is judged from `Created` and comment timestamps)
-3. Identify stale ideas — pending ideas with no comments, no first step, or created more than 30 days ago
-4. For each stale idea, present it to the user with a recommendation:
+1. Pull stats with `get_stats` to get the expected total
+2. Pull the list with `search_ideas` and an explicit `limit` at least as large as that total, then compare the returned count with the total. `search_ideas` returns only 20 ideas by default, and a `limit` below 1 falls back to that default. If fewer ideas came back, tell the user the audit covers a partial backlog (N of TOTAL) and do not call it a full audit or claim no other stale ideas remain
+3. Fetch details with `get_idea` for each pending idea to check creation dates and comments (the server exposes no last-modified date, so staleness is judged from `Created` and comment timestamps)
+4. Identify stale ideas — pending ideas with no comments, no first step, or created more than 30 days ago
+5. For each stale idea, present it to the user with a recommendation:
    - **Revive** — The idea still has value. Add a first step and keep it.
    - **Refine** — The idea is too vague. Rewrite the description to make it actionable.
    - **Abandon** — The idea is no longer relevant. Mark it `Abandoned` with a reason.
-5. Apply the user's decision with `update_idea` and `add_comment` (use idea.log's canonical status values — see the [shared reference](../REFERENCE.md))
-6. Present a summary of actions taken
+6. Apply the user's decision with `update_idea` and `add_comment` (use idea.log's canonical status values — see the [shared reference](../REFERENCE.md))
+7. Present a summary of actions taken
 
 ## Staleness Criteria
 
@@ -86,7 +87,8 @@ Continue? [yes/no]
 
 ```
 Stale Ideas Audit:
-- [ ] Identified all stale ideas using staleness criteria
+- [ ] Passed an explicit `limit` and checked the returned count against the `get_stats` total (disclosed any partial result)
+- [ ] Identified stale ideas among the returned ideas using staleness criteria
 - [ ] Presented each with a recommendation
 - [ ] Applied user decisions (revive, refine, abandon, skip)
 - [ ] Added comments documenting audit decisions

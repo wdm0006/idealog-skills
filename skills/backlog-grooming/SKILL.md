@@ -16,8 +16,8 @@ description: Reviews all pending ideas in idea.log, cleans up stale or duplicate
 
 ## How It Works
 
-1. Pull all ideas with `search_ideas` (no filters) to get the full backlog
-2. Pull stats with `get_stats` to understand the overall state
+1. Pull stats with `get_stats` to understand the overall state and get the expected total
+2. Pull the backlog with `search_ideas` (no filters) and an explicit `limit` at least as large as that total, then compare the returned count with the total. `search_ideas` returns only 20 ideas by default, and a `limit` below 1 falls back to that default. If fewer ideas came back, tell the user the grooming covers a partial backlog (N of TOTAL) and do not describe it as the full backlog
 3. For each idea, fetch full details with `get_idea` to see comments and tags
 4. Group ideas by theme, identify duplicates, and flag stale entries
 5. Present the full set of proposed changes and wait for the user to approve them — make no writes before this
@@ -121,7 +121,8 @@ Groom my idea backlog
 
 ```
 Backlog Grooming:
-- [ ] Reviewed all pending ideas
+- [ ] Passed an explicit `limit` and checked the returned count against the `get_stats` total (disclosed any partial result)
+- [ ] Reviewed all pending ideas returned
 - [ ] Presented all proposed changes grouped by action, before any writes
 - [ ] Got user approval and applied only the approved changes
 - [ ] Removed or merged approved duplicates
