@@ -34,7 +34,7 @@ For each idea in the backlog, check for:
 |-------|--------|
 | Vague or unclear content | Rewrite with `update_idea` to make it specific and actionable |
 | Missing first step | Add a concrete first step with `update_idea` |
-| Missing tags | Add relevant tags with `update_idea` |
+| Missing tags | Suggest relevant tags in the conversation only; `update_idea` cannot save them |
 | Duplicate of another idea | Mark one as Abandoned with `update_idea`, add comment explaining the duplicate |
 | Already completed elsewhere | Mark as Did It with `update_idea` |
 | No longer relevant | Mark as Abandoned with `update_idea`, add comment with reason |
@@ -46,7 +46,7 @@ Use idea.log's canonical status values (`Pending`, `Did First Step`, `Did It`, `
 Grooming can touch many ideas at once, and a mistaken duplicate or relevance call is expensive to undo. So collect the proposed changes during analysis and present them all at once before calling `update_idea` or `add_comment`. Group them by action so the user can scan the high-impact ones first:
 
 ```
-Proposed changes (12 across 9 ideas):
+Proposed saved changes (10 across 9 ideas):
 
 Abandon (2)
   1. "dotfile manager tool" — duplicate of "CLI for dotfiles"
@@ -60,10 +60,17 @@ Rewrite content (3)
   ...
 
 Add first step (4)
-Add tags (2)
-
 Apply all, or pick the ones you want? [all / numbers / none]
+
+Tag suggestions (not saved; excluded from the approval choices):
+  "Build recipe API" — api, app
+  "Write MCP blog post" — blog-post, devops
+  update_idea cannot persist tags on existing ideas.
 ```
+
+Keep tag suggestions separate from the numbered changes and saved-change counts.
+Follow the [shared reference](../REFERENCE.md): do not store suggested tags in
+content or comments, or recreate existing ideas to set them.
 
 Then:
 
@@ -108,6 +115,9 @@ Groom my idea backlog
 
    Apply all, or pick the ones you want? [all / numbers / none]
 
+   Tag suggestions (conversation only; cannot be saved with update_idea):
+     "Build recipe API" — api, app
+
 3. User approved all except #2 ("port app to Electron" — still wants to revisit it)
 4. Applied 9 changes: 1 abandoned duplicate with an explanatory comment,
    3 descriptions rewritten, 5 first steps added
@@ -126,7 +136,8 @@ Backlog Grooming:
 - [ ] Got user approval and applied only the approved changes
 - [ ] Removed or merged approved duplicates
 - [ ] Clarified approved vague descriptions
-- [ ] Added missing first steps and tags
+- [ ] Added approved missing first steps
+- [ ] Presented tag suggestions separately, without claiming they were saved
 - [ ] Presented prioritized recommendations (even if no changes were approved)
 ```
 
