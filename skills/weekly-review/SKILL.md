@@ -17,7 +17,7 @@ description: Generates a weekly summary of your idea.log activity — new ideas 
 ## How It Works
 
 1. Pull overall stats with `get_stats` for the big picture
-2. Pull all ideas with `search_ideas` to assess the full backlog
+2. Pull the backlog with `search_ideas` and an explicit `limit` at least as large as the `get_stats` total, then compare the returned count with that total. `search_ideas` returns only 20 ideas by default, and a `limit` below 1 falls back to that default. If fewer ideas came back, say the review covers a partial backlog (N of TOTAL), keep counts sourced from `get_stats`, and avoid "all"/"full backlog" claims
 3. For recently created ideas and ideas you suspect have comment activity, fetch details with `get_idea` — comment timestamps are the only per-idea activity dates the server returns (alongside `Created`)
 4. Generate a structured weekly report
 5. Present the complete report directly to the user
@@ -131,7 +131,7 @@ No, don't save it.
 
 ```
 Weekly Review:
-- [ ] Pulled current stats and full idea list
+- [ ] Pulled current stats and the idea list with an explicit `limit`, and checked the returned count against the `get_stats` total (disclosed any partial result)
 - [ ] Took new-this-week from `get_stats`; reported Did It as an all-time total
 - [ ] Counted a completion this week only when a dated comment evidenced it
 - [ ] Identified stale ideas from created date and comment activity
