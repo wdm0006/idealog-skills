@@ -13,10 +13,11 @@
   "plugins": [
     {
       "name": "idealog-complete",
-      "description": "All 6 idea.log skills: backlog grooming, idea interview, autonomous builder, weekly review, idea decomposition, and stale ideas audit",
+      "description": "All 7 idea.log skills: idea capture, backlog grooming, idea interview, autonomous builder, weekly review, idea decomposition, and stale ideas audit",
       "source": "./",
       "strict": false,
       "skills": [
+        "./skills/idea-capture",
         "./skills/backlog-grooming",
         "./skills/idea-interview",
         "./skills/autonomous-builder",
@@ -27,10 +28,11 @@
     },
     {
       "name": "idealog-essentials",
-      "description": "Core idea management: backlog grooming, idea interview, and weekly review",
+      "description": "Core idea management: idea capture, backlog grooming, idea interview, and weekly review",
       "source": "./",
       "strict": false,
       "skills": [
+        "./skills/idea-capture",
         "./skills/backlog-grooming",
         "./skills/idea-interview",
         "./skills/weekly-review"
