@@ -13,7 +13,7 @@
   "plugins": [
     {
       "name": "idealog-complete",
-      "description": "All 7 idea.log skills: idea capture, backlog grooming, idea interview, autonomous builder, weekly review, idea decomposition, and stale ideas audit",
+      "description": "All 8 idea.log skills: idea capture, backlog grooming, idea interview, autonomous builder, weekly review, idea decomposition, stale ideas audit, and idea next step",
       "source": "./",
       "strict": false,
       "skills": [
@@ -23,29 +23,32 @@
         "./skills/autonomous-builder",
         "./skills/weekly-review",
         "./skills/idea-decomposition",
-        "./skills/stale-ideas-audit"
+        "./skills/stale-ideas-audit",
+        "./skills/idea-next-step"
       ]
     },
     {
       "name": "idealog-essentials",
-      "description": "Core idea management: idea capture, backlog grooming, idea interview, and weekly review",
+      "description": "Core idea management: idea capture, backlog grooming, idea interview, idea next step, and weekly review",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/idea-capture",
         "./skills/backlog-grooming",
         "./skills/idea-interview",
+        "./skills/idea-next-step",
         "./skills/weekly-review"
       ]
     },
     {
       "name": "idealog-builder",
-      "description": "Turn ideas into projects: autonomous builder and idea decomposition",
+      "description": "Turn ideas into projects: autonomous builder, idea decomposition, and idea next step",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/autonomous-builder",
-        "./skills/idea-decomposition"
+        "./skills/idea-decomposition",
+        "./skills/idea-next-step"
       ]
     }
   ]

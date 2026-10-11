@@ -18,7 +18,7 @@ ships a Model Context Protocol server that reads and writes the same on-device
 store the app shows you, so an assistant works your real backlog instead of a
 pasted export.
 
-This repository is the other half: seven Claude Code skills that use that server to
+This repository is the other half: eight Claude Code skills that use that server to
 capture ideas from pasted notes, groom the backlog, turn a vague idea into an actionable one, run a weekly review,
 break a large idea into smaller ones, audit ideas that have gone stale, and pick
 one and build it.
@@ -103,9 +103,10 @@ What backlog grooming actually looks like, in Claude Code on a Mac with the
 Switch to idea.log on the Mac and the changes are already there. Same store, no
 import step, nothing to sync by hand.
 
-The other six skills follow the same shape. `idea-capture` files ideas from pasted notes after a duplicate check and a preview you approve. `idea-interview` asks you questions
+The other seven skills follow the same shape. `idea-capture` files ideas from pasted notes after a duplicate check and a preview you approve. `idea-interview` asks you questions
 until a one-line idea has a first step and suggested tags. `idea-decomposition`
 turns one large idea into several smaller ones that stand on their own.
+`idea-next-step` picks up an idea at `Did First Step` and proposes what to do next, behind a preview.
 `autonomous-builder` picks a pending idea and scaffolds it, confirming the
 destination before it writes any files.
 
@@ -119,6 +120,7 @@ destination before it writes any files.
 | [Autonomous Builder](skills/autonomous-builder/) | Pick an idea and autonomously scaffold or implement it as a real project |
 | [Weekly Review](skills/weekly-review/) | Generate a weekly summary of idea activity with suggestions for what to work on next |
 | [Idea Decomposition](skills/idea-decomposition/) | Break a large idea into smaller, actionable sub-ideas with their own first steps |
+| [Idea Next Step](skills/idea-next-step/) | Pick up an idea at Did First Step, read its comments, and propose the next 1-4 hour step, saved only after you approve a preview |
 | [Stale Ideas Audit](skills/stale-ideas-audit/) | Find ideas that have been sitting untouched and decide what to do with them |
 
 <p align="center">
@@ -150,9 +152,9 @@ The available bundles are:
 
 | Bundle | Skills | Description |
 |--------|--------|-------------|
-| **idealog-complete** | All 7 | Every skill in this repo |
-| **idealog-essentials** | Idea Capture, Backlog Grooming, Idea Interview, Weekly Review | Core idea management |
-| **idealog-builder** | Autonomous Builder, Idea Decomposition | Turn ideas into projects |
+| **idealog-complete** | All 8 | Every skill in this repo |
+| **idealog-essentials** | Idea Capture, Backlog Grooming, Idea Interview, Idea Next Step, Weekly Review | Core idea management |
+| **idealog-builder** | Autonomous Builder, Idea Decomposition, Idea Next Step | Turn ideas into projects |
 
 For example, to install just the core idea-management skills:
 
