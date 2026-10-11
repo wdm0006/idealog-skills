@@ -18,8 +18,8 @@ ships a Model Context Protocol server that reads and writes the same on-device
 store the app shows you, so an assistant works your real backlog instead of a
 pasted export.
 
-This repository is the other half: eight Claude Code skills that use that server to
-capture ideas from pasted notes, groom the backlog, turn a vague idea into an actionable one, run a weekly review,
+This repository is the other half: nine Claude Code skills that use that server to
+capture ideas from pasted notes, merge near-duplicates, groom the backlog, turn a vague idea into an actionable one, run a weekly review,
 break a large idea into smaller ones, audit ideas that have gone stale, and pick
 one and build it.
 
@@ -103,7 +103,7 @@ What backlog grooming actually looks like, in Claude Code on a Mac with the
 Switch to idea.log on the Mac and the changes are already there. Same store, no
 import step, nothing to sync by hand.
 
-The other seven skills follow the same shape. `idea-capture` files ideas from pasted notes after a duplicate check and a preview you approve. `idea-interview` asks you questions
+The other eight skills follow the same shape. `idea-capture` files ideas from pasted notes after a duplicate check and a preview you approve. `idea-merge` consolidates near-duplicate ideas into one survivor and marks the rest `Abandoned` after you approve a preview. `idea-interview` asks you questions
 until a one-line idea has a first step and suggested tags. `idea-decomposition`
 turns one large idea into several smaller ones that stand on their own.
 `idea-next-step` picks up an idea at `Did First Step` and proposes what to do next, behind a preview.
@@ -115,6 +115,7 @@ destination before it writes any files.
 | Skill | Description |
 |-------|-------------|
 | [Idea Capture](skills/idea-capture/) | Turn pasted notes or a brain dump into deduplicated ideas with first steps and tags, saved only after you approve a preview |
+| [Idea Merge](skills/idea-merge/) | Cluster near-duplicate ideas, keep one survivor with merged content, and mark the rest Abandoned with cross-reference comments after you approve a preview |
 | [Backlog Grooming](skills/backlog-grooming/) | Review all pending ideas, clean up stale ones, improve descriptions, and prioritize what matters |
 | [Idea Interview](skills/idea-interview/) | Interactive conversation to flesh out a vague idea into something actionable with tag suggestions and first steps |
 | [Autonomous Builder](skills/autonomous-builder/) | Pick an idea and autonomously scaffold or implement it as a real project |
@@ -152,8 +153,8 @@ The available bundles are:
 
 | Bundle | Skills | Description |
 |--------|--------|-------------|
-| **idealog-complete** | All 8 | Every skill in this repo |
-| **idealog-essentials** | Idea Capture, Backlog Grooming, Idea Interview, Idea Next Step, Weekly Review | Core idea management |
+| **idealog-complete** | All 9 | Every skill in this repo |
+| **idealog-essentials** | Idea Capture, Idea Merge, Backlog Grooming, Idea Interview, Idea Next Step, Weekly Review | Core idea management |
 | **idealog-builder** | Autonomous Builder, Idea Decomposition, Idea Next Step | Turn ideas into projects |
 
 For example, to install just the core idea-management skills:
