@@ -26,6 +26,8 @@ description: Reviews all pending ideas in idea.log, cleans up stale or duplicate
 
 ## Grooming Actions
 
+Diagnostic terms and evidence rules (observation vs. judgment, available date fields) are in the [shared reference](../REFERENCE.md#backlog-diagnostics); this does not change the confirmation steps below.
+
 ### Cleanup
 
 For each idea in the backlog, check for:
