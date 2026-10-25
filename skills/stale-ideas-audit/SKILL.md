@@ -29,6 +29,8 @@ description: Finds ideas that have been sitting untouched in your backlog and he
 
 ## Staleness Criteria
 
+Diagnostic terms and evidence rules (observation vs. judgment, available date fields) are in the [shared reference](../REFERENCE.md#backlog-diagnostics); this does not change the confirmation steps below.
+
 | Signal | Staleness Level |
 |--------|----------------|
 | No first step, no comments, no tags | High — likely a drive-by capture that was never developed |

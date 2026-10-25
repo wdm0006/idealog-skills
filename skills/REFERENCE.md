@@ -40,3 +40,38 @@ be persisted through this tool. Keep tag suggestions in the conversation; do not
 write them into content or comments as a substitute, or recreate an idea to set
 them. `create_idea` does accept `tags` for new ideas, including decomposition
 children. See the tool's own schema for the authoritative parameter list.
+
+## Backlog diagnostics
+
+Shared vocabulary for skills that diagnose the backlog (`backlog-health`,
+`backlog-grooming`, `stale-ideas-audit`, `weekly-review`). Diagnosing never
+authorizes a write; each skill keeps its own confirmation gate.
+
+**Available evidence.** Only these fields exist: `Status`, content, `First step`
+and its completed flag, `Tags` (read-only for existing ideas), the `Created`
+date, comment text with per-comment dates, and `get_stats` totals (including
+`Ideas created in last 7 days`). There is no modification, status-change or
+last-activity date. Never infer one, never report a numerical health score, and
+never present a tag change on an existing idea as a write.
+
+**Observation vs. judgment.** An *observation* is a count or fact read straight
+from the data (e.g. "9 Pending ideas have no first step"). A *judgment* is a
+candidate that needs the user's call (e.g. "possible duplicate", "vague"). Keep
+them in separate report sections and label judgments as candidates.
+
+**Diagnostic terms.**
+
+| Term | Definition |
+|------|------------|
+| Missing first step | No `First step` shown on a `Pending` idea. Measurable from the list. |
+| Possible duplicate | Two or more ideas that appear to describe the same outcome. A judgment; quote the content that suggests it. |
+| Vague idea | Content too short or unspecific to act on without clarification. A judgment; quote it. |
+| Review candidate | A `Pending` or `Did First Step` idea worth a look because of created-age and comment evidence (for example, created 60+ days ago with no comments in the inspected detail). Age alone is never grounds to abandon. |
+
+**Evidence rules.**
+
+- Cite the idea ID and a brief quote or date for every item.
+- Compute counts over the pulled list; report-wide totals come from `get_stats`.
+- Comment evidence requires `get_idea`. An idea whose detail was not inspected has *unknown* comments, never "no comments".
+- Disclose coverage twice: list coverage (returned count vs. `get_stats` total) and detail coverage (ideas inspected with `get_idea`).
+- Old age alone means "worth a look", not "abandon".

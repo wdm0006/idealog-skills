@@ -26,6 +26,8 @@ description: Generates a weekly summary of your idea.log activity — new ideas 
 
 ## Report Format
 
+Diagnostic terms and evidence rules (observation vs. judgment, available date fields) are in the [shared reference](../REFERENCE.md#backlog-diagnostics); this does not change the confirmation steps below.
+
 Status counts use idea.log's canonical values (`Pending`, `Did First Step`, `Did It`, `Abandoned`) — see the [shared reference](../REFERENCE.md).
 
 The server returns only a `Created` date and per-comment timestamps — no status-change or last-modified date — so it cannot say when an idea was completed or abandoned. `New this week` comes from `get_stats` (`Ideas created in last 7 days`). Report `Did It` as an all-time total, and count a completion "this week" only when a comment dated in the period evidences it; never estimate a period count for completed or abandoned ideas.
